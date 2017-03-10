@@ -1,0 +1,11 @@
+#contract-by-bank-chart, #contract-by-type-chart {
+	height: 480px;
+}
+
+#warranty-maintenance-detail-chart {
+	height: 400px;
+}
+
+#box-warranty-maintenance-chart [name="year_"] {
+	
+}

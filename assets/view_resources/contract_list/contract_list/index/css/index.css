@@ -1,0 +1,138 @@
+#new-contract {
+	font-size: inherit;
+}
+
+table#table-list {
+	min-width: 768px;
+}
+
+table#table-list thead th:nth-child(1), 
+table#table-list thead th:nth-child(2),
+table#table-list thead th:nth-child(4),
+table#table-list thead th:nth-child(5),
+table#table-list thead th:nth-child(6) {
+	width: 150px !important;
+}
+
+table#table-list thead th:nth-child(3) {
+	min-width: 300px !important;
+}
+
+table#table-list thead th:nth-child(4),
+table#table-list thead th:nth-child(5),
+table#table-list thead th:nth-child(6) {
+	width: 100px !important;
+}
+
+.bootstrap-datetimepicker-widget {
+	z-index: 999999 !important;
+}
+
+table#table-modal-contract-edit {
+	/*min-width: 800px;*/
+	/*margin-top: 10px;*/
+}
+
+#modal-contract-edit textarea[name="conditions_for_maintenance[]"] {
+	margin-bottom: 5px;
+}
+
+@media (min-width: 992px) {
+  	.modal-lg {
+    	width: 99%;
+  	}
+}
+
+@media (min-width: 768px) {
+  	.modal-dialog {
+    	width: 99%;
+    	margin: 10px auto
+  	}
+}
+
+#contract-fine-table td {
+	border-top: 0px solid #d8d8d8;
+	padding: 2.5px;
+}
+#contract-fine-table td:nth-child(1) {
+	width: 70%;
+}
+.tab-pane {
+	padding-top: 10px;
+}
+
+.swal2-overlay, .swal2-modal {
+	z-index: 99999 !important;
+}
+
+.caution-text {
+	font-size: 12px;
+	color: #a94442;
+}
+
+#detail-dropdown-export {
+	display: inline;
+}
+
+#modal-contract-edit [name="project_value"] {
+	width: 120px;
+	display: inline;
+}
+
+/*#table-payment-period-hardware thead tr:nth-child(1) {
+	background-color: #dddddd;
+}*/
+
+#table-payment-period-hardware, #table-payment-period-software {
+	min-width: 1136px;
+}
+
+#table-payment-period-hardware tbody td:nth-child(1),
+#table-payment-period-software tbody td:nth-child(1) {
+	width: 50px;
+	text-align: center;
+}
+
+#table-payment-period-hardware tbody td:nth-child(3),
+#table-payment-period-hardware tbody td:nth-child(4),
+#table-payment-period-hardware tbody td:nth-child(5),
+#table-payment-period-hardware tbody td:nth-child(7),
+
+#table-payment-period-software tbody td:nth-child(3),
+#table-payment-period-software tbody td:nth-child(4),
+#table-payment-period-software tbody td:nth-child(5),
+#table-payment-period-software tbody td:nth-child(7) {
+	width: 140px;
+}
+
+#table-payment-period-hardware tbody td:nth-child(6),
+#table-payment-period-software tbody td:nth-child(6) {
+	width: 350px;
+}
+
+#start-date-notice {
+	font-size: 12px;
+	/*color: #3f4db5;
+	font-weight: bold;
+	text-decoration: underline;*/
+}
+
+select option:disabled {
+	background-color: #c9c9c9;
+	
+}
+
+.over-end-date {
+	background-color: #bfbe8f !important;
+}
+
+.parent-warranty-maintenance-status-id {
+	width: 300px;
+}
+
+.animated {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}

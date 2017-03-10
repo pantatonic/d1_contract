@@ -1,0 +1,45 @@
+#inquiry-table {
+	width: 700px !important;
+	margin: auto;
+}
+
+#inquiry-table tbody td {
+	border-top: 0px solid #d8d8d8 !important;
+}
+
+#inquiry-table tbody td#td-search-button {
+	text-align: center;
+}
+
+#inquiry-table tbody td.td-date {
+	width: 190px;
+}
+
+#table-list tbody td:last-child {
+	text-align: center;
+}
+
+td.td-payment-period-index {
+	width: 70px !important;
+	text-align: center !important;
+}
+
+@media (min-width: 992px) {
+  	.modal-lg {
+    	width: 90%;
+  	}
+}
+
+#table-payment-period-hardware {
+	min-width: 1136px;
+}
+
+td.td-payment-period-date, td.td-payment-percent-value, td.td-payment-payment-value {
+	width: 100px;
+}
+td.td-payment-payment-value, td.td-payment-invoice {
+	width: 130px;
+}
+td.td-payment-status {
+	width: 180px;
+}

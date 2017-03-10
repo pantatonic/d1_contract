@@ -1,0 +1,29 @@
+#inquiry-table {
+	width: 700px !important;
+	margin: auto;
+}
+
+#inquiry-table tbody td {
+	border-top: 0px solid #d8d8d8 !important;
+}
+
+#inquiry-table tbody td#td-search-button {
+	text-align: center;
+}
+
+#inquiry-table tbody td.td-date {
+	width: 190px;
+}
+
+#table-list tbody td:last-child {
+	text-align: center;
+}
+
+#table-warranty-detail td.td-warranty-date {
+	width: 150px !important;
+}
+
+#table-warranty-detail td.td-warranty-index {
+	width: 70px !important;
+	text-align: center !important;
+}
