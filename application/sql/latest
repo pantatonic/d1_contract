@@ -1,0 +1,495 @@
+-- phpMyAdmin SQL Dump
+-- version 4.2.7.1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 19, 2017 at 01:33 PM
+-- Server version: 5.6.20
+-- PHP Version: 5.5.15
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `my_system`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `banks`
+--
+
+CREATE TABLE IF NOT EXISTS `banks` (
+`id` int(11) NOT NULL,
+  `short_name` varchar(100) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `banks`
+--
+
+INSERT INTO `banks` (`id`, `short_name`, `name`) VALUES
+(1, 'BACC', 'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร'),
+(2, 'BAY', 'ธนาคารกรุงศรีอยุธยา จำกัด(มหาชน)'),
+(3, 'BBL', 'ธนาคารกรุงเทพ จำกัด(มหาชน)'),
+(4, 'EXIM', 'ธนาคารเพื่อการส่งออกและนำเข้าแห่งประเทศไทย'),
+(5, 'GHB', 'ธนาคารอาคารสงเคราะห์'),
+(6, 'GSB', 'ธนาคารออมสิน'),
+(7, 'HP', 'H12'),
+(8, 'IBANK', 'ธนาคารอืสลามแห่งประเทศไทย'),
+(9, 'KBANK', 'ธนาคารกสิกรไทย'),
+(10, 'KTB', 'ธนาคารกรุงไทย'),
+(11, 'KTBCS', 'KTBCS'),
+(12, 'KTC', 'KTC'),
+(13, 'SCB', 'ธนาคารไทยพาณิชย์'),
+(14, 'SME', 'ธนาคารพัฒนาวิสาหกิจขนาดกลางและขนาดย่อมแห่งประเทศไทย'),
+(15, 'TBANK', 'ธนาคารธนชาต'),
+(16, 'TISCO', 'ธนาคารทิสโก้'),
+(17, 'TMB', 'ธนาคารทหารไทย'),
+(18, 'UOB', 'ธนาคารยูโอบี');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `common_mandatory_field`
+--
+
+CREATE TABLE IF NOT EXISTS `common_mandatory_field` (
+  `table_name` varchar(255) NOT NULL,
+  `field_name` varchar(255) NOT NULL,
+  `mandatory` tinyint(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `common_mandatory_field`
+--
+
+INSERT INTO `common_mandatory_field` (`table_name`, `field_name`, `mandatory`) VALUES
+('contracts', 'running_no', 1),
+('contracts', 'contract_no', 1),
+('contracts', 'bank_id', 1),
+('contracts', 'contract_name', 1),
+('contracts', 'contract_type_id', 1),
+('contracts', 'delivery_date', 0),
+('contracts', 'install_and_delevery', 0),
+('contracts', 'warranty', 0),
+('contracts', 'warranty_range', 0),
+('contracts', 'warranty_total_month', 0),
+('contracts', 'maintenance', 1),
+('contracts', 'maintenance_range', 0),
+('contracts', 'maintenance_total_month', 0),
+('contracts', 'after_dwp', 0),
+('contracts', 'status_id', 1),
+('contracts', 'remark', 0),
+('contracts', 'start_date', 1),
+('contracts', 'end_date', 1),
+('contracts', 'project_value', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conditions_for_maintenance`
+--
+
+CREATE TABLE IF NOT EXISTS `conditions_for_maintenance` (
+  `contract_id` int(11) NOT NULL,
+  `detail` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `conditions_for_maintenance`
+--
+
+INSERT INTO `conditions_for_maintenance` (`contract_id`, `detail`) VALUES
+(1, 'Hardware'),
+(1, 'HQ, DR: ซ่อมแซมและแก้ไข ดำเนินการให้แล้วเสร็จภายในระยะเวลา 4 ชม  ปรับชม ละ 2000 บาท'),
+(1, 'Branch : ซ่อมแซมและแก้ไข ดำเนินการให้แล้วเสร็จภายในระยะเวลา 3 ชม ปรับอัตราละ 1000 ชม'),
+(1, 'PM 3 เดือนต่อครั้งโดยมีเวลาห่างกันไม่น้อยกว่าครั้งละ 45 วัน ปรับครั้งละ 1000 บาท ต่อเครื่อง'),
+(2, 'Support 7x24'),
+(2, 'ตอบกลับ  ให้ได้ภายใน 2 ชม.'),
+(2, 'หากมีผลกระทบสูงต้องแก้ไข Software ให้ได้ภายใน 4 ชม. แก้ไขข้อบกพร่องอย่างถาวร ภายใน 5 วัน'),
+(2, 'หากไม่มีผลกระทบต่อการทำงานหลัก แก้ไขข้อบกพร่องอย่างถาวร ภายใน 15 วัน'),
+(2, 'ปรับในอัตราร้อยละ 0.20 ของมูลค่าสัญญาต่อ  1 กรณีนับตั้งแต่วันพ้นกำหนด'),
+(5, 'เข้าไป PM');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contracts`
+--
+
+CREATE TABLE IF NOT EXISTS `contracts` (
+`id` int(11) NOT NULL,
+  `running_no` varchar(100) NOT NULL COMMENT 'D1 Running No.',
+  `contract_no` varchar(100) NOT NULL COMMENT 'Contract No.',
+  `bank_id` int(11) DEFAULT NULL COMMENT 'Bank',
+  `contract_name` text NOT NULL COMMENT 'ชื่อสัญญา',
+  `contract_type_id` int(11) DEFAULT NULL COMMENT 'ประเภทสัญญา',
+  `delivery_date` date DEFAULT NULL COMMENT 'วันรับมอบ',
+  `install_and_delevery` text COMMENT 'การติดตั้งและส่งมอบ',
+  `warranty` int(11) DEFAULT NULL COMMENT 'การรับประกัน ใส่จำนวนเดือน',
+  `warranty_range` int(11) DEFAULT NULL COMMENT 'ระยะเวลาประกัน ใส่จำนวนเดือน',
+  `warranty_total_month` int(11) DEFAULT NULL,
+  `maintenance` int(11) DEFAULT NULL COMMENT 'MA ใส่จำนวนเดือน',
+  `maintenance_range` int(11) DEFAULT NULL COMMENT 'MA ใส่จำนวนเดือน',
+  `maintenance_total_month` int(11) DEFAULT NULL,
+  `fine` decimal(20,2) DEFAULT NULL COMMENT 'ค่าปรับ',
+  `dwp` varchar(255) DEFAULT NULL COMMENT 'ในช่วงรับประกันสัญญา (DWP)',
+  `after_dwp` varchar(255) DEFAULT NULL COMMENT 'หลังระยะรับประกันสัญญา',
+  `status_id` int(11) DEFAULT NULL COMMENT 'status',
+  `remark` text COMMENT 'remark',
+  `start_date` date DEFAULT NULL COMMENT 'start date',
+  `end_date` date DEFAULT NULL COMMENT 'end_date',
+  `project_value` decimal(20,2) DEFAULT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `contracts`
+--
+
+INSERT INTO `contracts` (`id`, `running_no`, `contract_no`, `bank_id`, `contract_name`, `contract_type_id`, `delivery_date`, `install_and_delevery`, `warranty`, `warranty_range`, `warranty_total_month`, `maintenance`, `maintenance_range`, `maintenance_total_month`, `fine`, `dwp`, `after_dwp`, `status_id`, `remark`, `start_date`, `end_date`, `project_value`) VALUES
+(1, 'CM-14-0052', 'กพ. 03-77/2557', 3, 'สัญญาจ้างพัฒนาระบบเครื่องถอนเงิน และเครื่องฝากเงิน NCR ให้รองรับ EMV & PCI DSS', 1, '2017-05-12', 'ทดสอบ Install and Delivery', 1, 6, 12, 1, 6, 24, NULL, NULL, 'ทดสอบ หลังระยะรับประกันสัญญา', 1, 'ทดสอบ Remark', '2017-01-30', '2020-05-12', '1000000.00'),
+(2, 'CM-15-0034', 'MA-00117-2015', 17, 'สัญญาว่าจ้างบำรุงรักษาโปรแกรมคอมพิวเคอร์ Software Oracle Database', 2, '2018-01-01', NULL, 1, 12, 12, 1, 4, 24, NULL, NULL, NULL, 1, NULL, '2017-03-21', '2021-01-01', '20000.00'),
+(3, 'TMA1', 'TTMA1', 6, 'Test MA only', 3, '2017-03-01', NULL, 1, 0, 0, 1, 6, 24, NULL, NULL, NULL, 1, NULL, '2017-03-01', '2019-03-01', '1000.00'),
+(4, 'T3', 'TT3', 6, 'Test 3', 4, '2018-01-01', NULL, 1, 3, 12, 1, 4, 12, NULL, NULL, NULL, 1, NULL, '2017-01-01', '2019-05-01', NULL),
+(5, '122354', 'GSB', 6, 'ATM 2000', 3, '2017-02-01', NULL, 1, 0, 0, 1, 6, 60, NULL, NULL, 'ไม่มี', 1, NULL, '2017-02-01', '2022-02-01', '100000000.00'),
+(6, 'T5', 'TT5', 9, 'Test Ma only 5', 3, '2017-02-01', NULL, 1, 0, 0, 1, 6, 12, NULL, NULL, NULL, 1, NULL, '2017-02-01', '2021-02-01', NULL),
+(7, 'T6', 'TT6', 11, 'Test 6', 1, '2018-02-02', NULL, 1, 6, 12, 1, 6, 24, NULL, NULL, NULL, 1, NULL, '2017-02-21', '2021-01-20', '1000.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_fine`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_fine` (
+  `contract_id` int(11) NOT NULL,
+  `fine_detail` text NOT NULL,
+  `fine_value` decimal(20,2) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `contract_fine`
+--
+
+INSERT INTO `contract_fine` (`contract_id`, `fine_detail`, `fine_value`) VALUES
+(1, 'ทดสอบ ปรับ 1', '11.00'),
+(1, 'ทดสอบ ปรับ 2', '100.00'),
+(1, 'ทดสอบ ปรับ 3', '1220.00'),
+(5, 'ครั้งละ', '3000.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_maintenance_detail`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_maintenance_detail` (
+  `contract_id` int(11) NOT NULL,
+  `maintenance_date` date DEFAULT NULL,
+  `contract_maintenance_detail_status_id` int(11) DEFAULT NULL,
+  `maintenance_remark` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `contract_maintenance_detail`
+--
+
+INSERT INTO `contract_maintenance_detail` (`contract_id`, `maintenance_date`, `contract_maintenance_detail_status_id`, `maintenance_remark`) VALUES
+(1, '2018-11-12', 1, 'ทดสอบMA 1'),
+(1, '2019-05-12', 1, 'ทดสอบMA 2'),
+(1, '2019-11-12', 1, 'ทดสอบMA 3'),
+(1, '2020-05-12', 1, 'ทดสอบMA 4'),
+(2, '2019-05-01', 1, 'MA 1'),
+(2, '2019-09-01', 1, 'MA 2'),
+(2, '2020-01-01', 1, 'MA 3'),
+(2, '2020-05-01', 1, 'MA 4'),
+(2, '2020-09-01', 1, 'MA 5'),
+(2, '2021-01-01', 1, 'MA 6'),
+(3, '2017-09-01', 1, 'MA 1'),
+(3, '2018-03-01', 1, 'MA 2'),
+(3, '2018-09-01', 1, 'MA 3'),
+(3, '2019-03-01', 1, 'MA 4'),
+(5, '2017-08-01', 1, 'eeeeeeee'),
+(5, '2018-02-01', 1, 'aaaaaa'),
+(5, '2018-08-01', 1, 'bbbbb'),
+(5, '2019-02-01', 1, 'cccccc'),
+(5, '2019-08-01', 1, NULL),
+(5, '2020-02-01', 1, NULL),
+(5, '2020-08-01', 1, NULL),
+(5, '2021-02-01', 1, NULL),
+(5, '2021-08-01', 1, NULL),
+(5, '2022-02-01', 1, NULL),
+(6, '2017-08-01', 1, NULL),
+(6, '2018-02-01', 1, NULL),
+(4, '2019-05-01', 1, NULL),
+(4, '2019-09-01', 1, NULL),
+(4, '2020-01-01', 1, NULL),
+(7, '2019-08-02', 1, NULL),
+(7, '2020-02-02', 1, NULL),
+(7, '2020-08-02', 1, NULL),
+(7, '2021-02-02', 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_maintenance_detail_status`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_maintenance_detail_status` (
+`id` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `contract_maintenance_detail_status`
+--
+
+INSERT INTO `contract_maintenance_detail_status` (`id`, `status`) VALUES
+(1, 'ยังไม่ได้ดำเนินการ'),
+(2, 'ดำเนินการแล้ว'),
+(3, 'ข้ามการดำเนินการ'),
+(4, 'ยกเลิกการดำเนินการ');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_payment_period`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_payment_period` (
+  `contract_id` int(11) NOT NULL,
+  `contract_payment_period_type` varchar(50) NOT NULL,
+  `payment_date` date DEFAULT NULL,
+  `percent_value` decimal(5,2) DEFAULT NULL,
+  `payment_value` decimal(20,2) DEFAULT NULL,
+  `payment_period_remark` text,
+  `contract_payment_period_status_id` int(11) DEFAULT NULL,
+  `invoice_no` varchar(100) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `contract_payment_period`
+--
+
+INSERT INTO `contract_payment_period` (`contract_id`, `contract_payment_period_type`, `payment_date`, `percent_value`, `payment_value`, `payment_period_remark`, `contract_payment_period_status_id`, `invoice_no`) VALUES
+(1, 'HARDWARE', '2018-05-12', '30.00', '300000.00', 'รายละเอียด 1', 1, NULL),
+(1, 'HARDWARE', '2018-05-20', '20.00', '200000.00', 'รายละเอียด 2', 1, NULL),
+(1, 'SOFTWARE', '2020-05-12', '50.00', '500000.00', 'รายละเอียด 3', 1, NULL),
+(2, 'HARDWARE', '2018-06-01', '25.00', '5000.00', 'Test 1', 1, NULL),
+(2, 'SOFTWARE', '2019-06-01', '25.00', '5000.00', 'Test 2', 1, NULL),
+(2, 'SOFTWARE', '2020-01-01', '25.00', '5000.00', 'Test 3', 1, NULL),
+(2, 'SOFTWARE', '2021-01-01', '25.00', '5000.00', 'Test 4', 1, NULL),
+(3, 'HARDWARE', '2019-12-31', '100.00', '1000.00', NULL, 1, NULL),
+(5, 'HARDWARE', '2017-02-01', '20.00', '20000000.00', NULL, 1, '1234568789'),
+(7, 'HARDWARE', '2017-02-23', '11.00', '110.00', NULL, 1, NULL),
+(7, 'SOFTWARE', '2017-02-15', '89.00', '890.00', NULL, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_payment_period_status`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_payment_period_status` (
+`id` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `contract_payment_period_status`
+--
+
+INSERT INTO `contract_payment_period_status` (`id`, `status`) VALUES
+(1, 'ยังไม่ชำระ'),
+(2, 'ชำระแล้ว'),
+(3, 'ยกเว้นการชำระ');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_types`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_types` (
+`id` int(11) NOT NULL,
+  `contract_type` varchar(100) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `contract_types`
+--
+
+INSERT INTO `contract_types` (`id`, `contract_type`) VALUES
+(1, 'ซื้อ HW,SW MA'),
+(2, 'ซื้อขาย HW และ MA'),
+(3, 'ซื้อขาย MA'),
+(4, 'ซื้อขาย SW และ MA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_warranty_detail`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_warranty_detail` (
+  `contract_id` int(11) NOT NULL,
+  `warranty_date` date DEFAULT NULL,
+  `contract_warranty_detail_status_id` int(11) DEFAULT NULL,
+  `warranty_remark` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `contract_warranty_detail`
+--
+
+INSERT INTO `contract_warranty_detail` (`contract_id`, `warranty_date`, `contract_warranty_detail_status_id`, `warranty_remark`) VALUES
+(1, '2017-11-12', 1, 'ทดสอบการรับประกัน 1'),
+(1, '2018-05-12', 1, 'ทดสอบการรับประกัน 2'),
+(2, '2019-01-01', 1, 'Warranty detail 1'),
+(4, '2018-04-01', 1, NULL),
+(4, '2018-07-01', 1, NULL),
+(4, '2018-10-01', 1, NULL),
+(4, '2019-01-01', 1, NULL),
+(7, '2018-08-02', 1, NULL),
+(7, '2019-02-02', 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contract_warranty_detail_status`
+--
+
+CREATE TABLE IF NOT EXISTS `contract_warranty_detail_status` (
+`id` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `contract_warranty_detail_status`
+--
+
+INSERT INTO `contract_warranty_detail_status` (`id`, `status`) VALUES
+(1, 'ยังไม่ได้ดำเนินการ'),
+(2, 'ดำเนินการแล้ว'),
+(3, 'ข้ามการดำเนินการ'),
+(4, 'ยกเลิกการดำเนินการ');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `status`
+--
+
+CREATE TABLE IF NOT EXISTS `status` (
+`id` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `status`
+--
+
+INSERT INTO `status` (`id`, `status`) VALUES
+(1, 'ใช้งาน'),
+(2, 'ยกเลิก');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `banks`
+--
+ALTER TABLE `banks`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `conditions_for_maintenance`
+--
+ALTER TABLE `conditions_for_maintenance`
+ ADD KEY `contract_id` (`contract_id`), ADD KEY `contract_id_2` (`contract_id`), ADD KEY `contract_id_3` (`contract_id`), ADD KEY `contract_id_4` (`contract_id`);
+
+--
+-- Indexes for table `contracts`
+--
+ALTER TABLE `contracts`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contract_fine`
+--
+ALTER TABLE `contract_fine`
+ ADD KEY `contract_id` (`contract_id`), ADD KEY `contract_id_2` (`contract_id`);
+
+--
+-- Indexes for table `contract_maintenance_detail_status`
+--
+ALTER TABLE `contract_maintenance_detail_status`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contract_payment_period_status`
+--
+ALTER TABLE `contract_payment_period_status`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contract_types`
+--
+ALTER TABLE `contract_types`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contract_warranty_detail_status`
+--
+ALTER TABLE `contract_warranty_detail_status`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `status`
+--
+ALTER TABLE `status`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `banks`
+--
+ALTER TABLE `banks`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `contracts`
+--
+ALTER TABLE `contracts`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `contract_maintenance_detail_status`
+--
+ALTER TABLE `contract_maintenance_detail_status`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `contract_payment_period_status`
+--
+ALTER TABLE `contract_payment_period_status`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `contract_types`
+--
+ALTER TABLE `contract_types`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `contract_warranty_detail_status`
+--
+ALTER TABLE `contract_warranty_detail_status`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `status`
+--
+ALTER TABLE `status`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
