@@ -264,7 +264,7 @@ var chart_ = (function() {
 				                    }
 				                },
 				                series: [{
-				                    name: app.translate('Spending cash'),
+				                    name: app.translate('number_of_contracts_'),
 				                    colorByPoint: true,
 				                    /*data: [
 				                        ['ซื้อ HW,SW MA', 2],
